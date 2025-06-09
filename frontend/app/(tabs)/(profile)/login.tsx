@@ -18,7 +18,7 @@ export default function LoginScreen() {
       <Button mode="contained" onPress={() => login(username, password)} style={styles.button}>
         Login
       </Button>
-      <Link href="/register" asChild>
+      <Link href="register" asChild>
         <Button style={styles.button}>Register</Button>
       </Link>
     </View>

@@ -13,7 +13,7 @@ export default function ProfileScreen() {
         <>
           <CustomText style={styles.title}>Hello {user.username}</CustomText>
           <CustomText>Email: {user.email}</CustomText>
-          <Link href="/edit-profile" asChild>
+          <Link href="edit-profile" asChild>
             <Button mode="contained" style={styles.button}>Edit Profile</Button>
           </Link>
           <Button mode="outlined" onPress={logout} style={styles.button}>
@@ -23,7 +23,7 @@ export default function ProfileScreen() {
       ) : (
         <>
           <CustomText style={styles.title}>Not logged in</CustomText>
-          <Link href="/login" asChild>
+          <Link href="login" asChild>
             <Button mode="contained" style={styles.button}>Login</Button>
           </Link>
         </>
