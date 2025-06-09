@@ -2,10 +2,12 @@ import { View, StyleSheet } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "expo-router";
 import { ThemedText } from "@/components/ThemedText";
 
 export default function RegisterScreen() {
   const { register } = useAuth();
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +18,16 @@ export default function RegisterScreen() {
       <TextInput label="Username" value={username} onChangeText={setUsername} style={styles.input} />
       <TextInput label="Email" value={email} onChangeText={setEmail} style={styles.input} />
       <TextInput label="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
-      <Button mode="contained" onPress={() => register(username, email, password)} style={styles.button}>
+      <Button
+        mode="contained"
+        onPress={async () => {
+          const success = await register(username, email, password);
+          if (success) {
+            router.replace("/login");
+          }
+        }}
+        style={styles.button}
+      >
         Sign Up
       </Button>
     </View>
