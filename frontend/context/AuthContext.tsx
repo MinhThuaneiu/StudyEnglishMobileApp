@@ -11,22 +11,8 @@ export interface User {
 
 interface AuthContextType {
   user: User | null;
-  /**
-   * Attempts to log a user in.
-   *
-   * @returns true when authentication succeeds
-   */
-  login: (username: string, password: string) => Promise<boolean>;
-  /**
-   * Attempts to register a new user.
-   *
-   * @returns true when registration succeeds
-   */
-  register: (
-    username: string,
-    email: string,
-    password: string
-  ) => Promise<boolean>;
+  login: (username: string, password: string) => Promise<void>;
+  register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   updateProfile: (user: User) => Promise<void>;
 }
@@ -38,7 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const login = async (username: string, password: string) => {
     try {
       const res = await fetch(`${API_URL}/User/login`, {
         method: "POST",
@@ -48,23 +34,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res.ok) {
         const json = await res.json();
         setUser(json);
-        return true;
       } else {
         Alert.alert("Login failed");
-        return false;
       }
     } catch (err) {
       console.error(err);
       Alert.alert("Login error");
-      return false;
     }
   };
 
-  const register = async (
-    username: string,
-    email: string,
-    password: string
-  ): Promise<boolean> => {
+  const register = async (username: string, email: string, password: string) => {
     try {
       const res = await fetch(`${API_URL}/User/register`, {
         method: "POST",
@@ -74,15 +53,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res.ok) {
         const json = await res.json();
         setUser(json);
-        return true;
       } else {
         Alert.alert("Registration failed");
-        return false;
       }
     } catch (err) {
       console.error(err);
       Alert.alert("Registration error");
-      return false;
     }
   };
 
